@@ -1,0 +1,7 @@
+.THIS {
+}
+
+/*Make 250px the height of the container*/
+.THIS .scrollerSize {
+    height: 250px;
+}

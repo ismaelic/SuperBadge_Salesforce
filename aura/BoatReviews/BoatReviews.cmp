@@ -1,0 +1,65 @@
+<aura:component description="BoatReviews" controller="BoatReviews">
+
+    <!--Attributes-->
+    <aura:attribute name="boat" type="Boat__c" description="Instance of the Boat object" />
+    <aura:attribute name="boatReviews" type="BoatReview__c[]" access="private" description="List of boat reviews" />
+    <!--Attributes-->
+
+    <!--Handlers-->
+    <aura:handler name="init" action="{!c.doInit}" value="{!this}" />
+    <aura:handler name="change" action="{!c.doInit}" value="{!v.boat}"/>
+    <!--Handlers-->
+
+    <!--Methods-->
+    <aura:method name="refresh" action="{!c.doInit}" access="public" description=""/>
+    <!--Methods-->
+
+    <div class="slds-feed">
+        <ul class="slds-feed__list">
+            <!--Scrollable container of boatReviews-->
+            <ui:scrollerWrapper class="scrollerSize">
+                <!--Check if boatReviews array is not empty-->
+                <aura:if isTrue="{!not(empty(v.boatReviews))}">
+                    <aura:iteration items="{!v.boatReviews}" var="boatReview">
+                        <li class="slds-feed__item">
+                            <article class="slds-post">
+                                <header class="slds-post__header slds-media">
+                                    <div class="slds-media__figure">
+                                        <a href="javascript:void(0);" class="slds-avatar slds-avatar_circle slds-avatar_large">
+                                            <img alt="{!boatReview.CreatedBy.Name}" src="{!boatReview.CreatedBy.SmallPhotoUrl}" title="{!boatReview.CreatedBy.Name + ' avatar'}" />
+                                        </a>
+                                    </div>
+                                    <div class="slds-media__body">
+                                        <div class="slds-has-flexi-truncate">
+                                            <p>
+                                                <!--Set the onclick handler and set the user id using data attribute-->
+                                                <a onclick="{!c.onUserInfoClick}" data-userid="{!boatReview.CreatedById}" title="{!boatReview.CreatedBy.Name}">{!boatReview.CreatedBy.Name}</a> —
+                                                <a href="" title="{!boatReview.CreatedBy.CompanyName}">{!boatReview.CreatedBy.CompanyName}</a></p>
+                                            <p class="slds-text-body_small"><lightning:formattedDateTime value="{!boatReview.CreatedDate}" /></p>
+                                        </div>
+                                    </div>
+                                </header>
+                                <div class="slds-post__content slds-text-longform">
+                                    <p class="slds-text-title_caps">{!boatReview.Name}</p>
+                                    <!--Use lightning:formattedRichText to correctly display rich text-->
+                                    <lightning:formattedRichText value="{!boatReview.Comment__c}" class="slds-text-body_small" />
+                                </div>
+                                <div class="slds-post__content">
+                                    <!--Instantiate FiveStarRating component, bind value with boatReview rating and define readonly value-->
+                                    <c:FiveStarRating value="{!boatReview.Rating__c}" readonly="true"/>
+                                </div>
+                            </article>
+                        </li>
+                    </aura:iteration>
+                    <!--If boatReviews array is empty display a message-->
+                    <aura:set attribute="else">
+                        <div class="slds-align_absolute-center">
+                            <p>No reviews available</p>
+                        </div>
+                    </aura:set>
+                </aura:if>
+            </ui:scrollerWrapper>
+        </ul>
+    </div>
+
+</aura:component>

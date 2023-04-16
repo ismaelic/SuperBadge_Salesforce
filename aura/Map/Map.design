@@ -1,0 +1,5 @@
+<design:component>
+    <!--Create two design attributes to modify map width and height from Page Builder-->
+    <design:attribute name="width" label="Width" description="Map component width" />
+    <design:attribute name="height" label="Height" description="Map component height" />
+</design:component>

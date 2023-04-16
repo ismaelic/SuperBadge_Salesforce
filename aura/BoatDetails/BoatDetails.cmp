@@ -1,0 +1,49 @@
+<aura:component description="BoatDetails" implements="flexipage:availableForAllPageTypes" access="global" >
+
+    <!--Attributes-->
+    <aura:attribute name="boat" type="Boat__c" access="public" description="Target fields to be used with force:recordData" />
+    <aura:attribute name="id" type="Id" access="public" description="Id of the boat to be retrieved with force:recordData" />
+    <!--Attributes-->
+
+    <!--Handlers-->
+    <aura:handler event="c:BoatSelected" action="{!c.onBoatSelected}"/>
+    <aura:handler name="BoatReviewAdded" event="c:BoatReviewAdded" action="{!c.onBoatReviewAdded}"/>
+    <!--Handlers-->
+
+    <!--Use force:recordData. List all fields in fields attribute. -->
+    <force:recordData aura:id="service"
+            recordId="{!v.id}"
+            mode="VIEW"
+            fields="Id,
+                    Name,
+                    Description__c,
+                    Price__c,
+                    Length__c,
+                    Contact__r.Name,
+                    Contact__r.Email,
+                    Contact__r.HomePhone,
+                    BoatType__r.Name,
+                    Picture__c"
+            targetFields="{!v.boat}"
+            recordUpdated="{!c.onRecordUpdated}"/>
+
+    <!--Render tabset if a boat is selected-->
+    <aura:if isTrue="{!not(empty(v.boat))}">
+        <div class="slds-card">
+            <lightning:tabset aura:id="tabset">
+                    <lightning:tab id="boatdetailstab" label="DETAILS">
+                        <!--Create an instance of BoatDetail and pass the boat retrieved from force:recordData-->
+                        <c:BoatDetail boat="{!v.boat}" />
+                    </lightning:tab>
+                <lightning:tab id="boatreviewtab" label="REVIEWS">
+                    <c:BoatReviews boat="{!v.boat}"/>
+                </lightning:tab>
+                <lightning:tab id="boataddreviewtab" label="ADD REVIEW">
+                    <!--Create an instance of AddBoatReview and pass the boat retrieved from force:recordData-->
+                    <c:AddBoatReview boat="{!v.boat}"/>
+                </lightning:tab>
+            </lightning:tabset>
+        </div>
+    </aura:if>
+
+</aura:component>

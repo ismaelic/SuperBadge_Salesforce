@@ -1,0 +1,10 @@
+<aura:component description="N3Service" abstract="true" extensible="true">
+
+    <aura:attribute name="creating" type="Boolean" default="false" access="public"/>
+    <aura:attribute name="updating" type="Boolean" default="false" access="public"/>
+    <aura:attribute name="deleting" type="Boolean" default="false" access="public"/>
+    <aura:attribute name="loading" type="Boolean" default="false" access="public"/>
+    <aura:attribute name="ready" type="Boolean" default="false" access="public"/>
+
+    {!v.body}
+</aura:component>

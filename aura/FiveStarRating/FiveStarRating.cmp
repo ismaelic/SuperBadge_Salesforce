@@ -1,0 +1,19 @@
+<aura:component description="FiveStarRating">
+
+    <!--Attributes-->
+    <aura:attribute name="value" type="Integer" default="0" description="" />
+    <aura:attribute name="readonly" type="Boolean" default="false" description="" />
+    <!--Attributes-->
+
+    <!--Require Static Resources-->
+    <ltng:require styles="{!$Resource.fivestar + '/rating.css'}" scripts="{!$Resource.fivestar + '/rating.js'}" afterScriptsLoaded="{!c.afterScriptsLoaded}"/>
+    <!--Require Static Resources-->
+
+    <!--Handlers-->
+    <aura:handler name="change" value="{!v.value}" action="{!c.onValueChange}"/>
+    <!--Handlers-->
+
+    <!--Conditionally style rating stars depending on readonly value-->
+    <ul aura:id="ratingarea" class="{! v.readonly ? 'readonly c-rating' : 'c-rating'}"></ul>
+
+</aura:component>

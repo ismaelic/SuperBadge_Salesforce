@@ -1,0 +1,44 @@
+<aura:component description="AddBoatReview">
+
+    <!--Attributes-->
+    <aura:attribute name="boat" type="Boat__c" description="Instance of the Boat object" />
+    <aura:attribute name="recordError" description="Record error from Lightning Data Service" type="String" />
+    <aura:attribute name="boatReview" description="Instance of the Boat Review object" type="BoatReview__c" />
+    <!--Attributes-->
+
+    <!--Handlers-->
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}" />
+    <!--Handlers-->
+
+    <!--Events-->
+    <aura:registerEvent name="BoatReviewAdded" type="c:BoatReviewAdded" />
+    <!--Events-->
+
+    <!--Instatiate an empty new Boat Review-->
+    <force:recordData aura:id="service"
+                      layoutType="FULL"
+                      fields="Id, Name, Comment__c, Boat__c, Rating__c"
+                      targetError="{!v.recordError}"
+                      targetFields="{!v.boatReview}"
+                      recordUpdated="{! c.onRecordUpdated }" />
+
+    <!--Boat Review Form-->
+    <lightning:layout multipleRows="true">
+        <lightning:layoutItem size="12" padding="around-small">
+            <lightning:input name="title" label="Title" type="text" value="{!v.boatReview.Name}" />
+        </lightning:layoutItem>
+        <lightning:layoutItem size="12" padding="around-small">
+            <label class="slds-text-title">Description</label>
+            <lightning:inputRichText disabledCategories="FORMAT_FONT" value="{!v.boatReview.Comment__c}" />
+        </lightning:layoutItem>
+        <lightning:layoutItem size="12" padding="around-small">
+            <label class="slds-text-title">Rating</label>
+            <!--Instantiate FiveStarRating component, bind value with boatReview rating and define readonly value-->
+            <c:FiveStarRating value="{!v.boatReview.Rating__c}" readonly="false"/>
+        </lightning:layoutItem>
+        <lightning:layoutItem size="12" padding="around-small">
+            <lightning:button type="submit" iconName="utility:save" label="Submit" onclick="{!c.onSave}" />
+        </lightning:layoutItem>
+    </lightning:layout>
+
+</aura:component>

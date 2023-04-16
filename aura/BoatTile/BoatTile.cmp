@@ -1,0 +1,29 @@
+<aura:component description="BoatTile">
+
+    <!--Attributes-->
+    <aura:attribute name="boat" type="Boat__c" description="Instance of the Boat object" />
+    <aura:attribute name="selected" type="Boolean" default="false" description="Toggles if tile is selected/deselected"/>
+    <!--Attributes-->
+
+    <!--Register Event-->
+    <!--Event fired when a particular boat tile is clicked-->
+    <aura:registerEvent type="c:BoatSelect" name="BoatSelect" />
+    <aura:registerEvent type="c:BoatSelected" name="BoatSelected" />
+    <!--Event the fires the map-->
+    <aura:registerEvent type="c:PlotMapMarker" name="PlotMapMarker"/>
+    <!--Register Event-->
+
+    <!--Boat Tile-->
+    <lightning:button class="{! v.selected ? 'tile selected' : 'tile'}" onclick="{!c.onBoatClick}">
+
+        <!--Render Boat Picture as tile background-->
+        <div style="{! 'background-image:url(' + v.boat.Picture__c + ');' }" class="innertile">
+            <div class="lower-third">
+                <!--Display Contact Lookup Name-->
+                <h1 class="slds-truncate">{!v.boat.Contact__r.Name}</h1>
+            </div>
+        </div>
+    </lightning:button>
+    <!--Boat Tile-->
+
+</aura:component>

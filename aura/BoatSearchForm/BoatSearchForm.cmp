@@ -1,0 +1,48 @@
+<aura:component implements="flexipage:availableForAllPageTypes,force:appHostable" extends="c:N3Service" access="global" controller="BoatTypeAuraController">
+
+    <!--Handlers-->
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
+    <!--Handlers-->
+
+    <!--Events-->
+    <aura:registerEvent name="formsubmit" type="c:FormSubmit"/>
+    <!--Events-->
+
+    <!--Attributes-->
+    <aura:attribute name="boatTypes" type="BoatType__c[]" description="List of Boat Type names" />
+    <aura:attribute name="boatType" type="String" description="Boat Type selected" />
+    <aura:attribute name="renderNewButton" type="Boolean" description="Flag to render 'New' button if e.force:createRecord is supported" />
+    <!--Attributes-->
+
+
+    <lightning:layout horizontalAlign="center" verticalAlign="end">
+        <!--Boat Types Drop-down-->
+        <lightning:layoutItem class="slds-m-right_small">
+            <lightning:select aura:id="boatTypesSelect" label="Boat Types" onchange="{!c.onSelectChange}" >
+                <option value="">All Types</option>
+                <aura:iteration items="{!v.boatTypes}" var="boat">
+                    <option value="{!boat.Id}">{!boat.Name}</option>
+                </aura:iteration>
+            </lightning:select>
+        </lightning:layoutItem>
+        <!--Boat Types Drop-down-->
+
+        <!--Search Button-->
+        <lightning:layoutItem class="slds-m-right_x-small">
+            <!--Fire the FormSubmit event-->
+            <lightning:button variant="brand" label="Search" onclick="{!c.onFormSubmit}"/>
+        </lightning:layoutItem>
+        <!--Search Button-->
+
+        <!--If e.force:createRecord is available, render New Button-->
+        <aura:if isTrue="{!v.renderNewButton}">
+            <lightning:layoutItem class="slds-m-right_x-small">
+                <lightning:button variant="neutral" label="New" onclick="{!c.onNew}" />
+            </lightning:layoutItem>
+        </aura:if>
+        <!--If e.force:createRecord is available, render New Button-->
+
+    </lightning:layout>
+
+
+</aura:component>

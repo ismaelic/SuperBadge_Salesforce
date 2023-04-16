@@ -1,0 +1,58 @@
+<aura:component description="BoatDetail">
+
+    <!--Attributes-->
+    <aura:attribute name="boat" type="Boat__c" description="Instance of the Boat object" />
+    <aura:attribute name="showOnFullDetailsButton" type="Boolean" description="" />
+    <!--Attributes-->
+
+    <!--Handler-->
+    <aura:handler value="{!this}" name="init" action="{!c.doInit}" />
+    <!--Handler-->
+
+    <lightning:card iconName="utility:anchor">
+        <!--Set the card's title using the contact name and appending "'s Boat"-->
+        <aura:set attribute="title">
+            {!v.boat.Contact__r.Name}’s Boat
+        </aura:set>
+        <!--Conditionally render the Full Details button-->
+        <aura:set attribute="actions">
+            <aura:if isTrue="{!v.showOnFullDetailsButton}">
+                <lightning:button label="Full Details" onclick="{!c.onFullDetails}"/>
+            </aura:if>
+        </aura:set>
+        <lightning:layout multipleRows="true">
+            <lightning:layoutItem size="6">
+                <div class="slds-p-horizontal--small">
+                    <!--Display the boat detail-->
+                    <div class="boatproperty">
+                        <span class="label">Boat Name:</span>
+                        <span>{!v.boat.Name}</span>
+                    </div>
+                    <div class="boatproperty">
+                        <span class="label">Type:</span>
+                        <span>{!v.boat.BoatType__r.Name}</span>
+                    </div>
+                    <div class="boatproperty">
+                        <span class="label">Length:</span>
+                        <!--Append "ft" to the boat length-->
+                        <span>{!v.boat.Length__c + 'ft'}</span>
+                    </div>
+                    <div class="boatproperty">
+                        <span class="label">Est. Price:</span>
+                        <!--Use lightning:formattedNumber to display the boat price in currency format-->
+                        <span><lightning:formattedNumber value="{!v.boat.Price__c}" style="currency" currencyCode="USD"/></span>
+                    </div>
+                    <div class="boatproperty">
+                        <span class="label">Description:</span>
+                        <!--Use lightning:formattedRichText to display the boat description-->
+                        <span><lightning:formattedRichText value="{!v.boat.Description__c}" /></span>
+                    </div>
+                </div>
+            </lightning:layoutItem>
+            <lightning:layoutItem size="6">
+                <!--Display the boat picture in a separate column-->
+                <div class="imageview" style="{! 'background-image:url(' + v.boat.Picture__c + ');' }" />
+            </lightning:layoutItem>
+        </lightning:layout>
+    </lightning:card>
+</aura:component>
